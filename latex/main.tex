@@ -63,6 +63,7 @@
 \usepackage{svg}
 \usepackage{subcaption}
 \usepackage{amsmath}
+\usepackage{tikz}
 % ---
 		
 % ---
@@ -789,15 +790,162 @@ O valor do coeficiente Kappa \cite{kappa} é uma métrica que busca avaliar conc
 
 \subsection{Árvore de Decisão}
 
-De maneira resumida, uma árvore de decisão busca relacionar os atributos (características) dos elementos (observações) com seus respectivos rótulos (classes). 
+O classificador árvore de decisão busca relacionar os atributos (características) dos elementos (observações) com seus respectivos rótulos (classes) utilizando uma estrutura de grafos em topologia de árvore \cite{Safavian1991}. O objetivo é identificar quais as melhores características para realizar a ``divisão'' dos dados nas classes corretas.
 
-CITAR REFERÊNCIA
+Para isso são considerados algumas métricas que buscam mensurar quão nítida pode ser essa divisão, como por exemplo a métrica de Gini ou ainda o quanto de informação é recebido com as divisões, através do cálculo de entropia.
 
-O algoritmo utilizado está implementado no pacote \verb|tree| da biblioteca \verb|sklearn| com o seguinte método \verb|DecisionTreeClassifier|. Os parâmetros utilizados foram todos os valores default do método.
+É um método ``simples'', não exigindo conhecimentos prévios a respeito dos dados, contudo altamente propenso a \textit{overfitting} dos dados de treinamento. Alternativas a este comportamento são propostas nos classificadores seguintes.
 
-As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_cm}) e curvas ROC (Figura \ref{dt_roc}) para cada uma das classes foram as seguintes:
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[
+    fact/.style={rectangle, draw=none, rounded corners=1mm, fill=blue, drop shadow,
+        text centered, anchor=north, text=white},
+    state/.style={circle, draw=none, fill=orange, circular drop shadow,
+        text centered, anchor=north, text=white},
+    leaf/.style={circle, draw=none, fill=red, circular drop shadow,
+        text centered, anchor=north, text=white},
+    level distance=0.5cm, growth parent anchor=south
+]
+\node (State00) [state] {$S_{00}$} [->]
+    child{
+        node (Fact01) [fact] {$T_{01}$}
+        child{ [sibling distance=9cm]
+            node (State01) [state] {$S_{01}$}
+            child{
+                node (Fact02) [fact] {$T_{02}$}
+                child{ [sibling distance=4cm]
+                    node (State02) [state] {$S_{02}$}
+                    child{
+                        node (Fact03) [fact] {$T_{03}$}
+                        child{
+                            node (State03) [leaf] {$S_{03}$}
+                        }
+                    }
+                    child{
+                        node (Fact04) [fact] {$T_{04}$}
+                        child{ [sibling distance=1.2cm]
+                            node (State04) [state] {$S_{04}$}
+                            child{
+                                node (Fact05) [fact] {$T_{05}$}
+                                child{
+                                    node (State05) [leaf] {$S_{05}$}
+                                }
+                            }
+                            child{
+                                node (Fact06) [fact] {$T_{06}$}
+                                child{
+                                    node (State06) [leaf] {$S_{06}$}
+                                }
+                            }
+                            child{
+                                node (Fact07) [fact] {$T_{07}$}
+                                child{
+                                    node (State07) [leaf] {$S_{07}$}
+                                }
+                            }
+                            child{
+                                node (Fact08) [fact] {$T_{08}$}
+                                child{
+                                    node (State08) [leaf] {$S_{08}$}
+                                }
+                            }
+                            child{
+                                node (Fact09) [fact] {$T_{09.0}$}
+                                child{
+                                    node (Fact09-1) [fact] {$T_{09.1}$}
+                                    child{
+                                        node (State09) [leaf] {$S_{09}$}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            child{ [sibling distance=4cm]
+                node (Fact10) [fact] {$T_{10}$}
+                child{
+                    node (State10) [state] {$S_{10}$}
+                    child{
+                        node (Fact11) [fact] {$T_{11}$}
+                        child{
+                            node (State11) [leaf] {$S_{11}$}
+                        }
+                    }
+                }
+            }
+        }
+    }   
+;
+ 
+\end{tikzpicture}
+\end{center}
+\label{ex_dt}
+ \caption{Exemplo de árvore de decisão, com o nó raiz acima $(S_{00})$ e a partir dele os ramos (características) e folhas em vermelho (rótulos) das classificações.}
+\end{figure}
 
-\begin{table}[]
+
+O algoritmo utilizado está implementado no pacote \verb|tree| da biblioteca \verb|sklearn| com o seguinte método \verb|DecisionTreeClassifier|. Os parâmetros utilizados foram configurados com os valores \textit{default} do pacote.
+
+\begin{verbatim}
+ #file: dt.ipynb
+ DT = tree.DecisionTreeClassifier()
+ DT.fit(X_train,y_train)
+ DT_res = DT.predict(X_test)
+ y_pred_DT = np.argmax(DT_res, axis=1)
+ y_predp_DT = DT.predict_proba(X_test)
+\end{verbatim}
+
+As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_cm}) e curvas ROC (Figura \ref{dt_roc}) para cada uma das classes são apresentadas a seguir.
+
+\begin{verbatim}
+ #file: dt.ipynb
+ #Matriz de confusão
+ DT_cm = confusion_matrix(y_true=y_true, 
+                         y_pred=y_pred_DT)
+ #Heatmap
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for
+ x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for
+ y-axis
+ sns.heatmap(DT_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for Decision Tree Classification Model',pad=15)
+ #Métricas
+ print(classification_report(y_true, y_pred_DT, target_names=class_label))
+ print("Accuracy:",metrics.accuracy_score(y_true, y_pred_DT))
+ #Curva ROC
+ fpr_DT = dict()
+ tpr_DT = dict()
+ roc_auc_DT = dict()
+ for i in range(class_label.shape[0]):
+     fpr_DT[i], tpr_DT[i], _ = roc_curve(y_test[:, i], y_pred_ovr_DT[:, i])
+     roc_auc_DT[i] = auc(fpr_DT[i], tpr_DT[i])
+ #Plot
+ for i in range(class_label.shape[0]):
+    plt.figure()
+    plt.plot(fpr_DT[i], tpr_DT[i], label='ROC curve (area = %0.2f)' % roc_auc_DT[i])
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic (ROC) for %s' % class_label[i])
+    plt.legend(loc="lower right")
+    plt.show()
+\end{verbatim}
+
+
+\begin{table}[h!]
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5}
@@ -817,7 +965,7 @@ As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_c
 
 \begin{figure}[h!]
  \centering
- \includegraphics[scale=0.5]{fig/dt_cm.png}
+ \includegraphics[scale=0.35]{fig/dt_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
  \caption{Matriz de confusão e heatmap para o conjunto de teste - Árvore de Decisão.}
  \label{fig:dt_cm}
@@ -858,7 +1006,13 @@ As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_c
 
 O valor do coeficiente Kappa para a Árvore de Decisão foi de $0.83$ com as seguintes métricas (Tabela \ref{tab:metrics_dt}).
 
-\begin{table}[]
+\begin{verbatim}
+ #file: dt.ipynb
+ #Kappa
+ DT_kappa = cohen_kappa_score(y_true, y_pred_DT)
+\end{verbatim}
+
+\begin{table}[h!]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
