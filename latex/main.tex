@@ -62,6 +62,7 @@
 \usepackage{microtype} 			% para melhorias de justificação
 \usepackage{svg}
 \usepackage{subcaption}
+\usepackage{amsmath}
 % ---
 		
 % ---
@@ -99,7 +100,7 @@
 \tituloestrangeiro{Report - Project \\ Artificial Intelligence }
 
 \autor{
-Matheus H. Pimenta Z. \thanks{matheus.pimenta@outlook.com}}
+Matheus H. Pimenta Z. \\\url{https://github.com/omatheuspimenta/IA_project} \thanks{matheus.pimenta@outlook.com}}
 
 \local{Brasil}
 \data{2021}
@@ -191,20 +192,26 @@ Matheus H. Pimenta Z. \thanks{matheus.pimenta@outlook.com}}
 
 
 % % resumo em português
-% \begin{resumoumacoluna}
-%  Conforme a ABNT NBR 6022:2018, o resumo no idioma do documento é elemento obrigatório. 
-%  Constituído de uma sequência de frases concisas e objetivas e não de uma 
-%  simples enumeração de tópicos, não ultrapassando 250 palavras, seguido, logo 
-%  abaixo, das palavras representativas do conteúdo do trabalho, isto é, 
-%  palavras-chave e/ou descritores, conforme a NBR 6028. (\ldots) As 
-%  palavras-chave devem figurar logo abaixo do resumo, antecedidas da expressão 
-%  Palavras-chave:, separadas entre si por ponto e finalizadas também por ponto.
-%  
-%  \vspace{\onelineskip}
-%  
-%  \noindent
-%  \textbf{Palavras-chave}: latex. abntex. editoração de texto.
-% \end{resumoumacoluna}
+\begin{resumoumacoluna}
+ Linguagem: Python $3.8.8$
+ 
+ Bibliotecas:
+ \begin{verbatim}
+    pandas
+    seaborn
+    sklearn
+    matplotlib.pyplot
+    numpy
+    xgboost
+ \end{verbatim}
+
+ URL: \url{https://github.com/omatheuspimenta/IA_project}
+ 
+ %\vspace{\onelineskip}
+ 
+ %\noindent
+ %\textbf{Palavras-chave}: latex. abntex. editoração de texto.
+\end{resumoumacoluna}
 
 
 % resumo em inglês
@@ -240,64 +247,160 @@ Matheus H. Pimenta Z. \thanks{matheus.pimenta@outlook.com}}
 % ----------------------------------------------------------
 \section{Dataset}
 
-O dataset utilizado é composto por $50$ colunas que representam medidas topológicas de grafos e mais uma coluna representados os rótulos das classes. Foram consideradas $200$ observações ao todo, sendo $50$ observações para cada uma das $4$ classes de elementos considerados.
+O dataset utilizado é composto por $50$ colunas que representam medidas topológicas de grafos extraídas através de \textit{thresholds} e mais uma coluna representando os rótulos das classes. Foram consideradas $200$ observações\footnote{A não consideração de um maior número de amostras não afetou o objetivo de apresentar o comportamento de diversos classificadores.} ao todo, sendo $50$ observações para cada uma das $4$ classes de elementos considerados. 
+
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Leitura do dataset
+ df = pd.read_csv("dataframe.csv", 
+                  index_col = 0)
+ #Dimensão do dataset
+ df.shape
+\end{verbatim}
+
+
+A escolha do dataset em análise é justificada por trabalhos já publicados utilizando datasets similares, isto é, utilizando medidas topológicas extraídas a partir de grafos \cite{Childs2009, Ito2018}.
+
+As etapas de pré-processamento realizadas neste dataset são apresentadas a seguir, salienta-se que por tratar-se de um dataset contendo apenas valores numéricos  muitas etapas não foram necessárias para a preparação e tratamento dos dados, contudo em outros tipos de dados etapas como remoção de valores faltantes, verificação de variáveis qualitativas, transformação de dados e etapas de processamento de texto, por exemplo são necessárias \cite{garcia2015data}.
+
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Verificando a classe de cada coluna do dataset
+ df.dtypes
+\end{verbatim}
 
 O primeiro tratamento realizado no dataset foi a verificação e remoção de colunas nulas, após a remoção das colunas nulas do dataset o tamanho final foi de $34$ colunas de características e $1$ coluna dos rótulos. Nenhuma observação foi desconsiderada.
 
-Após a remoção, foi realizada a normalização dos dados de maneira que todas as características ocupassem o mesmo intervalo de valores, isto é, a mesma escala  $[0,1]$. A normalização realizada foi utilizando o valor máximo e mínimo de cada uma das características, como apresentado pela equação \ref{eq:minmax}:
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Removendo colunas nulas
+ df = df.loc[:, (df != 0).any(axis=0)]
+ #Dimensão do dataset
+ df.shape
+\end{verbatim}
+
+Após a remoção das colunas com valores nulos, uma normalização dos dados foi realizada com o objetivo de que todos os valores do dataset pertençam ao intervalo $[0,1]$. A normalização realizada foi utilizando o valor máximo e mínimo de cada uma das observações em relação a característica, como apresentado pela equação \ref{eq:minmax}:
+
 \begin{equation}
 \label{eq:minmax}
- x_{scale} = \frac{x - \min{x}}{\max{x}-\min{x}}
+ x_{scale} = \frac{x - \min_{C}{(x)}}{\max_{C}{(x)}-\min_{C}{(x)}},
 \end{equation}
-onde $x$ é o valor da observação, $\min{x}$ e $\max{x}$ são o valor mínimo e máximo da característica observada, respectivamente.
+onde $x$ é o valor da observação, $\min_{C}{(x)}$ e $\max_{C}{(x)}$ são o valor mínimo e máximo da característica observada, respectivamente.
 
-A normalização é utilizada para homogeneizar os dados e diminuir viéses existentes na geração dos dados.
+A normalização é utilizada para homogeneizar os dados, diminuir viéses existentes na geração dos dados e para reduzir efeitos de ``valorização'' de um dado em relação a outros devido a escala de cada característica. O pacote \verb|preprocessing| da biblioteca \verb|sklearn| foi utilizado para a normalização MinMax do dataset.
+
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Normalização dos dados utilizando MinMax
+ min_max_scaler = preprocessing.MinMaxScaler()
+ df_minmax = min_max_scaler.fit_transform(df)
+ df = pd.DataFrame(df_minmax)
+\end{verbatim}
+
 
 \subsection{Caracterização do Dataset}
 
-Para as representação visual do dataset foram consideradas apenas $10$ colunas, sendo a primeira coluna de cada uma das $10$ medidas topológicas consideradas.
+Para as representações visuais do dataset foram consideradas apenas $10$ colunas, sendo a primeira coluna de cada uma das $10$ medidas topológicas consideradas.
 
 Optou-se considerar apenas $10$ colunas devido a limitação computacional da execução de um número maior de colunas, além da poluição visual caso sejam consideradas todas as $50$ colunas.
 
-A representação utilizando gráficos do tipo scatter plot são apresentadas nas figuras \ref{fig:scatter_hist01}, \ref{fig:scatter_hist02}, \ref{fig:scatter_kde01} e \ref{fig:scatter_kde02}. Nas diagonais são representados histogramas das características e a distribuição de densidade, respectivamente. A distribuição de densidade das variáveis é uma maneira de visualizar o comportamento da variável contínua nas observações, o que é recomendado já que o dataset é composto por variáveis contínuas.
+A representação utilizando gráficos do tipo \textit{scatter plot} são apresentadas nas figuras \ref{fig:scatter_hist01}, \ref{fig:scatter_hist02}, \ref{fig:scatter_kde01} e \ref{fig:scatter_kde02}. Nas diagonais estão representados os histogramas das características e a distribuição de densidade, respectivamente. A distribuição de densidade das variáveis é uma maneira de visualizar o comportamento da variável contínua nas observações, o que é recomendado já que o dataset é composto por variáveis contínuas.
 
-Além das representações e gráficos scatter plot, foram extraídas informações estatísticas do dataset em análise. Os dados são apresentados nas tabelas \ref{tab:est_ori} e \ref{tab:est_norm}.
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Scatter plot com histogramas
+ pd.plotting.scatter_matrix(df[['ASS.1', 'BET.1', 'ASPL.1', 'CC.1', 'DEG.1',
+ 'MIN.1', 'MAX.1',  'SD.1', 'MT3.1', 'MT4.1']], figsize=(10,10))
+ 
+ #Scatter plot com distribuição de densidade
+ pd.plotting.scatter_matrix(df[['ASS.1', 'BET.1', 'ASPL.1', 'CC.1', 'DEG.1',
+ 'MIN.1', 'MAX.1',  'SD.1', 'MT3.1', 'MT4.1']], diagonal = 'kde',
+ figsize=(10,10))
+\end{verbatim}
 
-Após a normalização, para a visualização da distribuição dos dados foi realizado um boxplot e um violin plot das dez características já utilizadas anteriormente, como apresentado nas figuras \ref{fig:boxplot} e \ref{fig:violin}. A escola do violin plot é justificada pela alta frequência de valores outliers nas amostras, como apresentado pelo boxplot, dessa maneira é possível verificar em qual intervalo está a maior concentração dos dados.
+Além das representações e gráficos \textit{scatter plot}, foram extraídas informações estatísticas do dataset em análise. Os dados são apresentados nas tabelas \ref{tab:est_ori} e \ref{tab:est_norm}.
 
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Medidas de posição e dispersão do dataset
+ pd.options.display.float_format = "{:.3f}".format
+ df.describe().T
+\end{verbatim}
+
+
+Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram utilizados para a visualização da distribuição dos dados dentro do intervalo $[0,1]$, como apresentado nas figuras \ref{fig:boxplot} e \ref{fig:violin}. A escolha do \textit{violin plot} é justificada pela alta frequência de valores considerados outliers nas amostras, como apresentado pelo \textit{boxplot}, dessa maneira é possível verificar em qual região do intervalo está a maior concentração dos dados.
+
+\begin{verbatim}
+ #file: preprocess.ipynb
+ #Boxplot
+ boxplot = df.boxplot(column=['ASS.1', 'BET.1', 'ASPL.1', 'CC.1', 'DEG.1',
+ 'MIN.1', 'MAX.1',  'SD.1', 'MT3.1', 'MT4.1'], figsize=(10,8))
+ 
+ #Violin plot
+ fig, axes = plt.subplots(figsize=(10,8))
+ labels = ['ASS.1', 'BET.1', 'ASPL.1', 'CC.1', 'DEG.1', 'MIN.1',
+ 'MAX.1',  'SD.1', 'MT3.1', 'MT4.1']
+
+ axes.violinplot(dataset=[df["ASS.1"],
+                          df["BET.1"],
+                          df["ASPL.1"],
+                          df["CC.1"],
+                          df["DEG.1"],
+                          df["MIN.1"],
+                          df["MIN.1"],
+                          df["MAX.1"],
+                          df["SD.1"],
+                          df["MT3.1"],
+                          df["MT4.1"]])
+ axes.set_title('Dataset Overview')
+ axes.yaxis.grid(True)
+ axes.set_ylabel('Values')
+ axes.xaxis.set_tick_params(direction='out')
+ axes.xaxis.set_ticks_position('bottom')
+ axes.set_xticks(np.arange(1, len(labels) + 1))
+ axes.set_xticklabels(labels)
+ axes.set_xlim(0.25, len(labels) + 0.75)
+ axes.set_xlabel('Features names')
+ plt.show()
+\end{verbatim}
+
+\newpage
 \begin{figure}[h!]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_hist01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Representação: Scatter plot com histograma - Dataset original.}
+ \caption{Representação: \textit{Scatter plot} com histograma - Dataset original.}
  \label{fig:scatter_hist01}
 \end{figure}
 
+\newpage
 \begin{figure}[h!]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_kde01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Representação: Scatter plot com histograma - Dataset original.}
+ \caption{Representação: \textit{Scatter plot} com histograma - Dataset original.}
  \label{fig:scatter_kde01}
 \end{figure}
 
-
+\newpage
 \begin{figure}[h!]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_hist02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Representação: Scatter plot com histograma - Dataset normalizado.}
+ \caption{Representação: \textit{Scatter plot} com histograma - Dataset normalizado.}
  \label{fig:scatter_hist02}
 \end{figure}
 
+\newpage
 \begin{figure}[h!]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_kde02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Representação: Scatter plot com histograma - Dataset normalizado.}
+ \caption{Representação: \textit{Scatter plot} com histograma - Dataset normalizado.}
  \label{fig:scatter_kde02}
 \end{figure}
 
+\newpage
 \begin{table}[h!]
 \small
 \centering
@@ -343,7 +446,8 @@ Após a normalização, para a visualização da distribuição dos dados foi re
 \label{tab:est_ori}
 \end{table}
 
-\begin{table}[]
+\newpage
+\begin{table}[h!]
 \centering
 \begin{tabular}{l|c|c|c|c|c|c|c|c|}
 \cline{2-9}
@@ -387,31 +491,45 @@ Após a normalização, para a visualização da distribuição dos dados foi re
 \label{tab:est_norm}
 \end{table}
 
-
+\newpage
 \begin{figure}[h!]
  \centering
- \includegraphics[scale=0.5]{fig/boxplot.png}
+ \includegraphics[scale=0.4]{fig/boxplot.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Boxplot de $10$ características - Dataset normalizado.}
+ \caption{\textit{Boxplot} de $10$ características - Dataset normalizado.}
  \label{fig:boxplot}
 \end{figure}
 
 \begin{figure}[h!]
  \centering
- \includegraphics[scale=0.5]{fig/violin.png}
+ \includegraphics[scale=0.4]{fig/violin.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Violin plot de $10$ características - Dataset normalizado.}
+ \caption{\textit{Violin plot} de $10$ características - Dataset normalizado.}
  \label{fig:violin}
 \end{figure}
 
-
+\newpage
 \section{Classificadores}
 
-O objetivo deste trabalho é apresentar a execução de alguns classificadores, optou-se por utilizar $6$ classificadores e um dataset pequeno devido as limitações de hardware e também devido ao objetivo ante exposto. Não foram considerados classificadores do tipo \textit{ deep learning}.
+O objetivo deste trabalho é apresentar a execução de alguns classificadores, dessa forma optou-se por utilizar $6$ classificadores e um dataset pequeno, devido as limitações de hardware para as execuções, logo não foram considerados classificadores do tipo \textit{ deep learning}. A escolha do dataset não afeta o objetivo ante exposto. 
 
-O dataset foi binarizado e separado de maneira estratificada em conjuntos de treinamento e teste na seguinte proporção, $80\%$ dos dados para treinamento e $20\%$ para teste.
+O dataset foi binarizado e separado de maneira estratificada em conjuntos de treinamento e teste na seguinte proporção, $80\%$ dos dados para treinamento e $20\%$ para teste. A biblioteca \verb|sklearn| foi utilizada nesta etapa.
 
-\subsection{k-nearest neighbors (KNN)}
+\begin{verbatim}
+ #Binarizando os dados
+ Y_bin = label_binarize(df['CLASS'], 
+                       classes=class_label)
+ 
+ #Split dataset
+ X_train, X_test, y_train, y_test = train_test_split(X,
+                                                    Y_bin, 
+                                                    test_size=0.2,
+                                                    stratify=class_names)
+ y_true = np.argmax(y_test, axis = 1)
+\end{verbatim}
+
+
+\subsection{k-nearest neighbors $(k-NN)$}
 
 O classificador k-nearest neighbors foi proposto inicialmente na década de $60$, e expandido na década de $90$ \cite{KNN}. A proposta do algoritmo é realizar a comparação da distância da $i$-ésima amostra com $k$ vizinhos mais próximos e através de votação classificar a amostra como pertencente a classe de maior votos. Os parâmetros utilizados pelo algoritmo são os seguintes:
 \begin{itemize}
@@ -421,7 +539,7 @@ O classificador k-nearest neighbors foi proposto inicialmente na década de $60$
 
 As métricas mais utilizadas são a distância Euclidiana (eq. \ref{eq: dist1}), de Minkowsky (eq. \ref{eq: dist2}) e Chebyshev (eq. \ref{eq: dist3}).
 
-\begin{eqnarray}
+\begin{align}
  \label{eq: dist1}
   d_E\left( p,q\right)&= \sqrt {\sum _{i=1}^{n}  \left( q_{i}-p_{i}\right)^2 } \\
   \label{eq: dist2}
@@ -429,15 +547,54 @@ As métricas mais utilizadas são a distância Euclidiana (eq. \ref{eq: dist1}),
   \\
   \label{eq: dist3}
   D_C\left( p,q\right)&= \max_i(|p_i,q_i|) 
-\end{eqnarray}
+\end{align}
 
-Já o valor de $k$ é um valor a ser definido através de um refinamento do algoritmo.
+Já o valor de $k$ é um valor a ser definido através de heurísticas para a seleção de melhores valores, neste projeto optou-se por realizar um refinamento do algoritmo utilizando a abordagem \textit{grid}.
 
-O algoritmo utilizado esta implementado no pacote \verb|sklearn.neighbors|, com a métrica padrão Euclidiana e inicialmente com o valor de $k=3$.
+\begin{figure}[h!]
+ \centering
+ \includegraphics[scale=0.2]{fig/knn_alg.png}
+ % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
+ \caption{Exemplo de classificação utilizando $k-NN$, o círculo verde é um novo elemento para classificação, caso seja considerado $k=3$ (círculo preto contínuo) a classe do elemento verde é a mesma dos elementos vermelhos, por outro lado considerando $k=5$ temos que a classe escolhido é a mesma dos elementos azuis, já que são maioria dentre este intervalo. Fonte: Antti Ajanki sob CC BY-SA 3.0}
+ \label{fig:knn_alg}
+\end{figure}
 
-A acurácia e métricas obtidas para esse valor de $k$ foram as seguintes (Tabela \ref{tab:knn_01}):
+O algoritmo utilizado esta implementado no pacote \verb|sklearn.neighbors|, com a métrica padrão Euclidiana. Inicialmente com o valor de $k=3$ foi utilizado para a análise dos resultados.
 
-\begin{table}[]
+\begin{verbatim}
+ #file: knn.ipynb
+ knn = KNeighborsClassifier(n_neighbors=3)
+ knn.fit(X_train, y_train)
+ knn3_res = knn.predict(X_test)
+ y_pred_knn3 = np.argmax(knn3_res, axis=1)
+\end{verbatim}
+
+As métricas obtidas para o valor de $k=3$ são apresentadas na tabela \ref{tab:knn_01}.
+
+\begin{verbatim}
+ #file: knn.ipynb
+ #Matriz de confusão
+ KNN3_cm = confusion_matrix(y_true=y_true, 
+                           y_pred=y_pred_knn3)
+ #heatmap                           
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for
+ x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for 
+ y-axis
+ sns.heatmap(KNN3_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for KNN Classification Model',pad=15)
+\end{verbatim}
+
+\begin{table}[h!]
 \centering
 \begin{tabular}{l|c|c|c|c|}
 \cline{2-5}
@@ -450,7 +607,7 @@ A acurácia e métricas obtidas para esse valor de $k$ foram as seguintes (Tabel
 \multicolumn{1}{|l|}{\textbf{macro avg}}    & 0.80               & 0.80            & 0.77              & 40               \\ \hline
 \multicolumn{1}{|l|}{\textbf{weighted avg}} & 0.80               & 0.80            & 0.77              & 40               \\ \hline
 \end{tabular}
-\caption{Métricas - KNN - $k=3$}
+\caption{Métricas - $k-NN$ - $k=3$}
 \label{tab:knn_01}
 \end{table}
 
@@ -458,25 +615,63 @@ E a seguinte matriz de confusão (Figura \ref{fig:knn_cm01}):
 
 \begin{figure}[h!]
  \centering
- \includegraphics[scale=0.5]{fig/knn_cm01.png}
+ \includegraphics[scale=0.35]{fig/knn_cm01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Matriz de confusão e heatmap para o conjunto de teste - KNN - $k=3$.}
+ \caption{Matriz de confusão e heatmap para o conjunto de teste utilizando o classificador $k-NN$ - $k=3$.}
  \label{fig:knn_cm01}
 \end{figure}
 
-Com o objetivo de obter o melhor valor para $k$, foi realizada uma busca em $grid$ e para o melhor valor de $k$ em um intervalo de $[1,30]$ utilizando validação cruzada de $10-fold$. O seguinte resultado foi obtido (Figura \ref{fig:knn_grid}):
+Com o objetivo de obter um melhor valor da acurácia, foi realizada uma busca em $grid$ para selecionar o melhor valor de $k$ em um intervalo de $[1,30]$ utilizando uma validação cruzada de $10-fold$. Utilizou-se dessa abordagem como forma de mostrar que o classificador possui parâmetros que devem ser ajustados conforme o dataset utilizado. 
+
+\begin{verbatim}
+ #file: knn.ipynb
+ #Intervalo de busca
+ k_list = list(range(1,31))
+ knn_param = dict(n_neighbors=k_list)
+ #grid
+ grid = GridSearchCV(knn,
+                    knn_param, 
+                    cv=10, 
+                    scoring='accuracy')
+ #Fit
+ grid.fit(X_train, y_train)
+ #Print
+ print("Melhores parametros {} com o valor de acurácia {}
+ ".format(grid.best_params_,grid.best_score_))
+\end{verbatim}
+
+
+Os seguintes valores de acurácias médias para cada uma das execuções das validações cruzados são exibidos na figura \ref{fig:knn_grid}. Neste caso, em particular, a maior acurácia utilizando validação cruzada foi obtida com o valor de $k=1$, isto significa que a classe a ser escolhida por um novo elemento será a classe do elemento mais próximo a este novo elemento.
+
+\begin{verbatim}
+ #file: knn.ipynb
+ knn = KNeighborsClassifier(n_neighbors=1)
+ knn.fit(X_train, y_train)
+ knn1_res = knn.predict(X_test)
+ y_pred_knn1 = np.argmax(knn1_res, axis=1)
+ y_predp_knn1 = knn.predict_proba(X_test)
+\end{verbatim}
+
 
 \begin{figure}[h!]
  \centering
  \includegraphics[scale=0.5]{fig/knn_grid.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Acurácia obtida através da variação do valor de $k$.}
+ \caption{Acurácias (eixo $y$) obtidas através da variação do valor de $k$ (eixo $x$).}
  \label{fig:knn_grid}
 \end{figure}
 
 Utilizando o valor da maior acurácia obtido nas validações cruzadas ($k=1$), as seguintes métricas (Tabela \ref{tab:knn_02}) e matriz de confusão (Figura \ref{fig:knn_cm02}) foram obtidas:
 
-\begin{table}[]
+\begin{verbatim}
+ #file: knn.ipynb
+ KNN1_cm = confusion_matrix(y_true=y_true, 
+                           y_pred=y_pred_knn1)
+ print(classification_report(y_true, y_pred_knn1, target_names=class_label))
+ print(accuracy_score(y_true, y_pred_knn1))                           
+\end{verbatim}
+
+\begin{table}[h!]
 \centering
 \begin{tabular}{l|c|c|c|c|}
 \cline{2-5}
@@ -489,21 +684,51 @@ Utilizando o valor da maior acurácia obtido nas validações cruzadas ($k=1$), 
 \multicolumn{1}{|l|}{\textbf{macro avg}}    & 0.80                                    & 0.80            & 0.78              & 40               \\ \hline
 \multicolumn{1}{|l|}{\textbf{weighted avg}} & 0.80                                    & 0.80            & 0.78              & 40               \\ \hline
 \end{tabular}
-\caption{Métricas - KNN - $k=1$}
+\caption{Métricas - $k-NN$ - $k=1$}
 \label{tab:knn_02}
 \end{table}
 
 \begin{figure}[h!]
  \centering
- \includegraphics[scale=0.5]{fig/knn_cm02.png}
+ \includegraphics[scale=0.35]{fig/knn_cm02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Matriz de confusão e heatmap para o conjunto de teste - KNN - $k=1$.}
+ \caption{Matriz de confusão e heatmap para o conjunto de teste - $k-NN$ - $k=1$.}
  \label{fig:knn_cm02}
 \end{figure}
 
-A análise sobre a área abaixo da curva ROC é obtida através dos seguintes gráficos para cada classe (Figura \ref{knn_roc}):
+A análise da performance de classificadores pode ser feita analisando a área abaixo da curva ROC (Receiver Operating Characteristic). Quanto maior for a área, isto é, mais próxima a $1$, melhor é a performance do classificador. Como o dataset é multi classe foi utilizada a abordagem ``um contra todos'' para a obtenção das curvas ROC para cada uma das classes, como mostra a figura \ref{knn_roc}.
 
-\begin{figure}
+\begin{verbatim}
+ #file: knn.ipynb
+ #OneVsRestClassifier
+ clf = OneVsRestClassifier(KNeighborsClassifier(n_neighbors=1))
+ y_pred_ovr_knn1 = clf.fit(X_train, y_train).predict_proba(X_test)
+ #Curva ROC para cada classe
+ fpr_KNN1 = dict()
+ tpr_KNN1 = dict()
+ roc_auc_KNN1 = dict()
+ for i in range(class_label.shape[0]):
+    fpr_KNN1[i], tpr_KNN1[i], _ = roc_curve(y_test[:, i], y_pred_ovr_knn1[:,
+    i])
+    roc_auc_KNN1[i] = auc(fpr_KNN1[i], tpr_KNN1[i])
+ #Plot
+ for i in range(class_label.shape[0]):
+    plt.figure()
+    plt.plot(fpr_KNN1[i], tpr_KNN1[i], label='ROC curve (area = %0.2f)' %
+    roc_auc_KNN1[i])
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic (ROC) for %s' %
+    class_label[i])
+    plt.legend(loc="lower right")
+    plt.show()
+\end{verbatim}
+
+
+\begin{figure}[h!]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -532,13 +757,19 @@ A análise sobre a área abaixo da curva ROC é obtida através dos seguintes gr
     \caption{Receiver operating characteristic (ROC) - $class_4$}
     \label{fig:knn_roc4}
     \end{subfigure}
-    \caption{Receiver operating characteristic (ROC) para o classificador KNN com $k=1$.}
+    \caption{Receiver operating characteristic (ROC) para o classificador $k-NN$ com $k=1$.}
     \label{knn_roc}
 \end{figure}
 
-O valor do coeficiente Kappa para KNN com $k=1$ é $0.73$ com as seguintes métricas (Tabela \ref{tab:metrics_knn}).
+O valor do coeficiente Kappa \cite{kappa} é uma métrica que busca avaliar concordância entre conjuntos, no caso de classificadores são analisados os conjuntos de teste e preditos, quanto mais próximo de $1$, maior é o nível de concordância entre os conjuntos. Para $k-NN$ com $k=1$ o valor do coeficiente de Kappa é $0.73$ com as seguintes métricas (Tabela \ref{tab:metrics_knn}).
 
-\begin{table}[]
+\begin{verbatim}
+ #file: knn.ipynb
+ #Kappa
+ knn_kappa = cohen_kappa_score(y_true, y_pred_knn1)
+\end{verbatim}
+
+\begin{table}[h!]
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
@@ -552,7 +783,7 @@ O valor do coeficiente Kappa para KNN com $k=1$ é $0.73$ com as seguintes métr
 \textbf{False Discovery:}              & 0.25            & 0.09            & 0.2             & 0.25            \\ \hline
 \textbf{Acurácia:}                     & 0.9             & 0.97            & 0.82            & 0.9             \\ \hline
 \end{tabular}
-\caption{Métricas - KNN - $k=1$}
+\caption{Métricas - $k-NN$ - $k=1$}
 \label{tab:metrics_knn}
 \end{table}
 
