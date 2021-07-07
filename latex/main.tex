@@ -52,6 +52,7 @@
 % ---
 % Pacotes fundamentais 
 % ---
+\usepackage[alf]{abntex2cite}
 \usepackage{lmodern}			% Usa a fonte Latin Modern
 \usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
 \usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
@@ -64,6 +65,7 @@
 \usepackage{subcaption}
 \usepackage{amsmath}
 \usepackage{tikz}
+\usepackage{float}
 % ---
 		
 % ---
@@ -208,6 +210,7 @@ Matheus H. Pimenta Z. \\\url{https://github.com/omatheuspimenta/IA_project} \tha
 
  URL: \url{https://github.com/omatheuspimenta/IA_project}
  
+ Todos os códigos estão no link acima. Neste relatório são apresentados algumas partes dos códigos apenas.
  %\vspace{\onelineskip}
  
  %\noindent
@@ -366,7 +369,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{verbatim}
 
 \newpage
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_hist01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -375,7 +378,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{figure}
 
 \newpage
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_kde01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -384,7 +387,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{figure}
 
 \newpage
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_hist02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -393,7 +396,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{figure}
 
 \newpage
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/scatter_kde02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -402,7 +405,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{figure}
 
 \newpage
-\begin{table}[h!]
+\begin{table}[H]
 \small
 \centering
 \begin{tabular}{l|c|c|c|c|c|c|c|c|}
@@ -448,7 +451,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{table}
 
 \newpage
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{l|c|c|c|c|c|c|c|c|}
 \cline{2-9}
@@ -493,7 +496,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
 \end{table}
 
 \newpage
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.4]{fig/boxplot.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -501,7 +504,7 @@ Após a normalização, um \textit{boxplot} e um \textit{violin plot} foram util
  \label{fig:boxplot}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.4]{fig/violin.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -552,7 +555,7 @@ As métricas mais utilizadas são a distância Euclidiana (eq. \ref{eq: dist1}),
 
 Já o valor de $k$ é um valor a ser definido através de heurísticas para a seleção de melhores valores, neste projeto optou-se por realizar um refinamento do algoritmo utilizando a abordagem \textit{grid}.
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.2]{fig/knn_alg.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -595,7 +598,7 @@ As métricas obtidas para o valor de $k=3$ são apresentadas na tabela \ref{tab:
  ax.set_title('Heatmap for KNN Classification Model',pad=15)
 \end{verbatim}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{l|c|c|c|c|}
 \cline{2-5}
@@ -614,7 +617,7 @@ As métricas obtidas para o valor de $k=3$ são apresentadas na tabela \ref{tab:
 
 E a seguinte matriz de confusão (Figura \ref{fig:knn_cm01}):
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.35]{fig/knn_cm01.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -654,7 +657,7 @@ Os seguintes valores de acurácias médias para cada uma das execuções das val
 \end{verbatim}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/knn_grid.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -672,7 +675,7 @@ Utilizando o valor da maior acurácia obtido nas validações cruzadas ($k=1$), 
  print(accuracy_score(y_true, y_pred_knn1))                           
 \end{verbatim}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{l|c|c|c|c|}
 \cline{2-5}
@@ -689,7 +692,7 @@ Utilizando o valor da maior acurácia obtido nas validações cruzadas ($k=1$), 
 \label{tab:knn_02}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.35]{fig/knn_cm02.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -729,7 +732,7 @@ A análise da performance de classificadores pode ser feita analisando a área a
 \end{verbatim}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -770,7 +773,7 @@ O valor do coeficiente Kappa \cite{kappa} é uma métrica que busca avaliar conc
  knn_kappa = cohen_kappa_score(y_true, y_pred_knn1)
 \end{verbatim}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|c|c|}
 \hline
@@ -944,8 +947,8 @@ As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_c
     plt.show()
 \end{verbatim}
 
-
-\begin{table}[h!]
+\newpage
+\begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5}
@@ -963,7 +966,7 @@ As métricas (Tabela \ref{tab:dt_01}), matriz de confusão (Figura \ref{fig:dt_c
 \end{table}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.35]{fig/dt_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -1012,7 +1015,7 @@ O valor do coeficiente Kappa para a Árvore de Decisão foi de $0.83$ com as seg
  DT_kappa = cohen_kappa_score(y_true, y_pred_DT)
 \end{verbatim}
 
-\begin{table}[h!]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1030,18 +1033,63 @@ O valor do coeficiente Kappa para a Árvore de Decisão foi de $0.83$ com as seg
 \label{tab:metrics_dt}
 \end{table}
 
-
+\newpage
 \subsection{Random Forest}
 
-De maneira resumida, o algoritmo Random Forest realiza a execução de diversas árvores de decisão de maneira que  relacione os atributos (características) dos elementos (observações) com seus respectivos rótulos (classes) com uma maior assertividade. 
+O algoritmo Random Forest é um método \textit{ensemble} que combina a execução de diversas árvores de decisão de maneira que relacione os atributos (características) dos elementos (observações) com seus respectivos rótulos (classes) com uma maior assertividade, diminuindo o efeito de \textit{overfitting} do método árvore de decisão \cite{Igual2017}.
 
-CITAR REFERÊNCIA
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{fig/rf_alg.png}
+ % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
+ \caption{Exemplo de classificação utilizando Random Forest. Diversas árvores de decisão são executadas simultaneamente, após a execução de todas as $n$ árvores de decisão, através de votação é definida a classe do elemento em análise. Fonte: Venkata Jagannath sob CC BY-SA 3.0}
+ \label{fig:rf_alg}
+\end{figure}
 
-O algoritmo utilizado está implementado no pacote \verb|sklearn.ensemble| da biblioteca \verb|sklearn| com o seguinte método \verb|RandomForestClassifier|. Os parâmetros utilizados foram todos os valores default do método, isto é $100$ árvores de decisão por execução.
+O algoritmo utilizado está implementado no pacote \verb|sklearn.ensemble| da biblioteca \verb|sklearn| com o seguinte método \verb|RandomForestClassifier|. Os parâmetros utilizados foram os valores default do método, isto é $100$ árvores de decisão por execução e $max\_features=\sqrt{n\_features}$ como o número máximo de características selecionadas para cada árvore de decisão. Além da reamostragem do conjunto de treinamento ser realizada via \textit{bootstrap} com o número máximo de amostras sendo o número de observações do conjunto de treinamento.
 
-As métricas (Tabela \ref{tab:rf_01}), matriz de confusão (Figura \ref{fig:rf_cm}) e curvas ROC (Figura \ref{rf_roc}) para cada uma das classes foram as seguintes:
+\begin{verbatim}
+ #file: rf.ipynb
+ #Random Forest
+ RF = RandomForestClassifier(n_estimators = 100)
+ RF.fit(X_train,y_train)
+ RF100_res = RF.predict(X_test)
+ y_pred_RF100 = np.argmax(RF100_res, axis=1)
+ y_predp_RF100 = RF.predict_proba(X_test)
+\end{verbatim}
 
-\begin{table}[]
+
+As métricas (Tabela \ref{tab:rf_01}), matriz de confusão (Figura \ref{fig:rf_cm}) e curvas ROC (Figura \ref{rf_roc}) para cada uma das classes são apresentadas abaixo.
+
+\begin{verbatim}
+ #file: rf.ipynb
+ #Matriz de confusão
+ RF100_cm = confusion_matrix(y_true=y_true, 
+                             y_pred=y_pred_RF100)
+ #Heatmap
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for y-axis
+ sns.heatmap(RF100_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for RF100 Classification Model',pad=15)
+ #Métricas
+ print(classification_report(y_true, y_pred_RF100,
+ target_names=class_label))
+ print("Accuracy:",metrics.accuracy_score(y_true, y_pred_RF100))
+\end{verbatim}
+
+
+\begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5}
@@ -1058,7 +1106,7 @@ As métricas (Tabela \ref{tab:rf_01}), matriz de confusão (Figura \ref{fig:rf_c
 \label{tab:rf_01}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/rf_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -1067,7 +1115,7 @@ As métricas (Tabela \ref{tab:rf_01}), matriz de confusão (Figura \ref{fig:rf_c
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -1100,19 +1148,19 @@ As métricas (Tabela \ref{tab:rf_01}), matriz de confusão (Figura \ref{fig:rf_c
     \label{rf_roc}
 \end{figure}
 
-Além das análises apresentadas, foram analisados as características mais relevantes para a classificação, como apresentada na figura \ref{fig:rf_feat}.
+Além das análises apresentadas, foram analisados as características mais relevantes para a classificação, como apresentada na figura \ref{fig:rf_feat}. Essa análise de quais características possuem maior relevância no dataset contribui fornecendo maiores informações a respeito do dataset utilizado.
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.7]{fig/rf_feat.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Características de maior relevância para o classificador Random Forest.}
+ \caption{Características de maior relevância para o classificador Random Forest. A análise pode ser utilizada para unir características semelhantes, selecionando subconjuntos apenas com as características de maior relevância e diminuindo o custo computacional do método.}
  \label{fig:rf_feat}
 \end{figure}
 
 O valor do coeficiente Kappa para o classificador Random Forest foi de $0.86$ com as seguintes métricas (\ref{tab:metrics_rf}):
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|l|l|l|l|}
 \hline
@@ -1132,19 +1180,79 @@ O valor do coeficiente Kappa para o classificador Random Forest foi de $0.86$ co
 
 \subsection{Gradient Boosting}
 
-CITAR REFERÊNCIA
+Um outro método do tipo \textit{ensemble} proposto é o Gradient Boosting inicialmente apresentaado por \cite{Friedman2000}. Utilizando a teoria \textit{boosting} com ferramental matemático (otimização) e estatístico o método Gradient Boosting realiza uma busca do ponto mínimo da função \textit{loss} associada ao modelo.
+
+Em outras palavras, busca-se associar um funcional desconhecido utilizando um conjunto $(x,y)_{i=1}^N$, onde  $x$ são as características das observações e $y$ os rótulos de cada observação \cite{Natekin2013}. Dessa forma busca-se definir um funcional $\hat{f}$ de tal forma que $x \xrightarrow{f} y$ seja aproximado por $\hat{f}$ minimizando uma função $\Psi(y,f)$:
+\begin{equation}
+ \hat{f}(x) = y
+\end{equation}
+\begin{equation}
+\label{gb_eq}
+ \hat{f}(x) = \underset{f(x)}{\mathrm{argmin}}\Psi(y,f(x))
+\end{equation}
+
+A equação \ref{gb_eq} é reescrita de maneira a obter a função objetiva que sera diferenciada e utilizando a técnica de otimização do gradiente descendente busca-se definir o seu ponto de mínimo. O método pode ser detalhado em \cite{Natekin2013}.
 
 O algoritmo utilizado está implementado no pacote \verb|sklearn.ensemble| da biblioteca \verb|sklearn| com o seguinte método \verb|GradientBoostingClassifier|. 
 
-O método possuí diversos parâmetros, como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método Gradient Boosting, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em grid de diversos parâmetros e valores.
+O método possuí diversos parâmetros e como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método Gradient Boosting, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em \textit{grid} de diversos parâmetros e valores.
 
-O parâmetro analisado foi a taxa de aprendizagem do algoritmo, analisando os seguintes valores: $0.05, 0.075, 0.1, 0.25, 0.5, 0.75$ e $1$. Os demais parâmetros foram considerados os valores default. A execução com diversas taxas de aprendizagem resultou em valores de acurácia diversos 
+\begin{verbatim}
+ #file:grad_boost.ipynb
+ #Taxas de aprendizagem
+ lr_list = [0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1]
+ for learning_rate in lr_list:
+    gb_clf = OneVsRestClassifier(GradientBoostingClassifier(n_estimators=100,                                                            learning_rate=learning_rate, max_features=None, max_depth=3, random_state=None))
+    gb_fit = gb_clf.fit(X_train, y_train)
+    print("Learning rate: ", learning_rate)
+    print("Accuracy score (training): {0:.3f}".format(gb_fit.score(X_train,
+    y_train)))
+    print("Accuracy score (teste): {0:.3f}".format(gb_fit.score(X_test,
+    y_test)))  
+\end{verbatim}
+
+O parâmetro analisado foi a taxa de aprendizagem do algoritmo, com os seguintes valores: $0.05, 0.075, 0.1, 0.25, 0.5, 0.75$ e $1$. Os demais parâmetros foram considerados os valores \textit{default} do método. A execução das taxas de aprendizagem resultou em valores de acurácia diversos 
 \footnote{Os demais valores estão no arquivo grad\_boost.ipynb.}, a maior taxa de acurácia foi obtida com a taxa de $0.5$, a qual foi utilizada ao decorrer das análises. 
 
+\begin{verbatim}
+ #file: grad_boost.ipynb
+ #L.R. 0.5
+ gb_clf = OneVsRestClassifier(GradientBoostingClassifier(n_estimators=100,                                                        learning_rate=0.5, max_features=None, max_depth=3, random_state=None))
+ y_predp_ovr_gb = gb_clf.fit(X_train, y_train).predict_proba(X_test)
+ y_pred_ovr_gb = gb_clf.fit(X_train, y_train).predict(X_test)
+ y_pred_gb = np.argmax(y_pred_ovr_gb, axis=1)
+\end{verbatim}
 
 As métricas (Tabela \ref{tab:gb_01}), matriz de confusão (Figura \ref{fig:gb_cm}) e curvas ROC (Figura \ref{gb_roc}) para cada uma das classes foram as seguintes:
 
-\begin{table}[]
+\begin{verbatim}
+ #file: grad_boost.ipynb
+ #Matriz de confusão
+ gb_cm = confusion_matrix(y_true=y_true, 
+                         y_pred=y_pred_gb)
+ #Heatmap
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for y-axis
+ sns.heatmap(gb_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for Gradient Boosting Classification Model',pad=15)
+ print(classification_report(y_true, y_pred_gb, target_names=class_label))
+ print("Accuracy:",metrics.accuracy_score(y_true, y_pred_gb))
+\end{verbatim}
+
+
+\newpage
+\begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5}
@@ -1162,7 +1270,7 @@ As métricas (Tabela \ref{tab:gb_01}), matriz de confusão (Figura \ref{fig:gb_c
 \end{table}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/gb_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -1172,7 +1280,7 @@ As métricas (Tabela \ref{tab:gb_01}), matriz de confusão (Figura \ref{fig:gb_c
 
 
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -1208,7 +1316,7 @@ As métricas (Tabela \ref{tab:gb_01}), matriz de confusão (Figura \ref{fig:gb_c
 
 O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.9$ com as seguintes métricas (\ref{tab:metrics_gb}):
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1226,20 +1334,73 @@ O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.9$
 \label{tab:metrics_gb}
 \end{table}
 
-\subsection{XG Boosting}
+\newpage
+\subsection{XGBoost}
 
-CITAR REFERÊNCIA
+
+Proposto inicialmente por \cite{Chen2016} o método XGBoost também utiliza metodologia análoga aos métodos anteriores, isto é, é um método do tipo \textit{boosting} que busca minimizar uma função \textit{loss}. Quando comparado com outros métodos XGBoost possui recursos que aumentam sua acurácia dependendo do dataset utilizado. Maiores informações sobre o método e a abordagem matemática por ser acessada em \cite{Chen2016}.
 
 O algoritmo utilizado está implementado na biblioteca \verb|xgboost| com o seguinte método \verb|XGBClassifier|. 
 
-O método possuí diversos parâmetros, como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método XG Boost, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em grid de diversos parâmetros e valores.
+O método possuí diversos parâmetros, como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método XGBoost, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em \textit{grid} de diversos parâmetros e valores.
 
-O parâmetro analisado foi a taxa de aprendizagem do algoritmo, analisando os seguintes valores: $0.05, 0.075, 0.1, 0.25, 0.5, 0.75$ e $1$. Os demais parâmetros foram considerados os valores default. A execução com diversas taxas de aprendizagem resultou em valores de acurácia diversos 
+O parâmetro analisado foi a taxa de aprendizagem do algoritmo, analisando os seguintes valores: $0.05, 0.075, 0.1, 0.25, 0.5, 0.75$ e $1$. Os demais parâmetros foram considerados os valores default. A execução das taxas de aprendizagem resultou em valores de acurácia diversos 
 \footnote{Os demais valores estão no arquivo XGBoost.ipynb.}, a maior taxa de acurácia foi obtida com a taxa de $0.075$, a qual foi utilizada ao decorrer das análises. 
+
+\begin{verbatim}
+ #file:XGBoost.ipynb
+ #Analisando LR
+ lr_list = [0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1]
+ for learning_rate in lr_list:
+    xgb_clf = OneVsRestClassifier(XGBClassifier(eval_metric='mlogloss',
+                                                use_label_encoder=False,
+                                                learning_rate=learning_rate)
+                                                )
+
+    xgb_fit = xgb_clf.fit(X_train, y_train)
+    print("Learning rate: ", learning_rate)
+    print("Accuracy score (training): {0:.3f}".format(xgb_fit.score(X_train,
+    y_train)))
+    print("Accuracy score (teste): {0:.3f}".format(xgb_fit.score(X_test,
+    y_test)))
+ #LR
+ xgb_clf = OneVsRestClassifier(XGBClassifier(eval_metric='mlogloss',
+                                                 use_label_encoder=False,
+                                                 learning_rate=0.075))
+ y_predp_ovr_xgb = xgb_clf.fit(X_train, y_train).predict_proba(X_test)
+ y_pred_ovr_xgb = xgb_clf.fit(X_train, y_train).predict(X_test)
+ y_pred_xgb = np.argmax(y_pred_ovr_xgb, axis=1)
+\end{verbatim}
+
 
 As métricas (Tabela \ref{tab:xgb_01}), matriz de confusão (Figura \ref{fig:xgb_cm}) e curvas ROC (Figura \ref{xgb_roc}) para cada uma das classes foram as seguintes:
 
-\begin{table}[]
+\begin{verbatim}
+ #file: XGBoost.ipynb
+ #Matriz de confusão
+ xgb_cm = confusion_matrix(y_true=y_true, 
+                           y_pred=y_pred_xgb)
+ #Heatmap
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] # labels for y-axis
+ sns.heatmap(xgb_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for X Gradient Boosting Classification Model',pad=15)
+ #Métricas
+ print(classification_report(y_true, y_pred_xgb, target_names=class_label))
+ print("Accuracy:",metrics.accuracy_score(y_true, y_pred_xgb))
+ \end{verbatim}
+
+\newpage
+\begin{table}[H]
 \centering
 \begin{tabular}{l|l|l|l|l|}
 \cline{2-5}
@@ -1252,16 +1413,16 @@ As métricas (Tabela \ref{tab:xgb_01}), matriz de confusão (Figura \ref{fig:xgb
 \multicolumn{1}{|l|}{\textbf{macro avg}}    & 0.90               & 0.90            & 0.90              & 40               \\ \hline
 \multicolumn{1}{|l|}{\textbf{weighted avg}} & 0.90               & 0.90            & 0.90              & 40               \\ \hline
 \end{tabular}
-\caption{Métricas - XG Boost - L.R: $0.075$}
+\caption{Métricas - XGBoost - L.R: $0.075$}
 \label{tab:xgb_01}
 \end{table}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/xgb_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
- \caption{Matriz de confusão e heatmap para o conjunto de teste - XG Boost L.R. :$0.075$.}
+ \caption{Matriz de confusão e heatmap para o conjunto de teste - XGBoost L.R. :$0.075$.}
  \label{fig:xgb_cm}
 \end{figure}
 
@@ -1295,13 +1456,13 @@ As métricas (Tabela \ref{tab:xgb_01}), matriz de confusão (Figura \ref{fig:xgb
     \caption{Receiver operating characteristic (ROC) - $class_4$}
     \label{fig:xgb_roc4}
     \end{subfigure}
-    \caption{Receiver operating characteristic (ROC) para o classificador XG Boost.}
+    \caption{Receiver operating characteristic (ROC) para o classificador XGBoost.}
     \label{xgb_roc}
 \end{figure}
 
-O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.86$ com as seguintes métricas (\ref{tab:metrics_xgb}):
+O valor do coeficiente Kappa para o classificador XGBoost foi de $0.86$ com as seguintes métricas (\ref{tab:metrics_xgb}):
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1315,24 +1476,81 @@ O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.86
 \textbf{F Discovery:}    & 0.16            & 0               & 0.125           & 0.1             \\ \hline
 \textbf{Acurácia:}       & 0.95            & 1               & 0.9             & 0.95            \\ \hline
 \end{tabular}
-\caption{Métricas - XG Boost - L.R.:$0.075$}
+\caption{Métricas - XGBoost - L.R.:$0.075$}
 \label{tab:metrics_xgb}
 \end{table}
 
+\newpage
 \subsection{Support Vector Machine (SVM)}
 
-CITAR REFERÊNCIA
+O objetivo de uma máquina de vetor suporte (do inglês Support Vector Machine (SVM)) é definir um hiperplano em um espaço $n-$dimensional de maneira que divida os pontos em classes, detalhes e demonstrações matemáticas para SVM podem ser encontradas em \cite{bishop:2006:PRML, Smola04atutorial}.
+
+\begin{figure}[H]
+ \centering
+ \includegraphics[scale=0.6]{fig/svm_alg.jpg}
+ % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
+ \caption{Exemplo de classificação utilizando SVM.  Fonte: Roni Shouval sob CC BY-SA 3.0}
+ \label{fig:svm_alg}
+\end{figure}
 
 O algoritmo utilizado está implementado no pacote \verb|svm| da biblioteca \verb|sklearn| com o seguinte método \verb|SVC|. 
 
-O método possuí diversos parâmetros, como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método SVM, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em grid de diversos parâmetros e valores.
+O método possui diversos parâmetros, como o objetivo deste relatório não é refinar métodos de machine learning optou-se por analisar somente um parâmetro do método SVM, contudo é válido reforçar que pode-se utilizar de diversas outras abordagens para obter melhores valores nas métricas de avaliação, como por exemplo uma busca em grid de diversos parâmetros e valores.
 
 O parâmetro analisado foi a função kernel do algoritmo, analisando o comportamento do método com seguintes kernels: \verb|'linear', 'poly', 'rbf', 'sigmoid'|. Os demais parâmetros foram considerados os valores default. A execução com diversas funções kernel resultou em valores de acurácia diversos 
 \footnote{Os demais valores estão no arquivo svm.ipynb.}, a maior taxa de acurácia foi obtida com o kernel linear, o qual foi utilizado ao decorrer das análises. 
 
+\begin{verbatim}
+ #file: svm.ipynb
+ krnl = ['linear', 'poly', 'rbf', 'sigmoid']
+ for kernel in krnl:
+    svm_clf = OneVsRestClassifier(svm.SVC(kernel=kernel,
+                                          probability=True))
+
+    svm_fit = svm_clf.fit(X_train, y_train)
+
+    print("Learning rate: ", kernel)
+    print("Accuracy score (training): {0:.3f}".format(svm_fit.score(X_train,
+    y_train)))
+    print("Accuracy score (teste): {0:.3f}".format(svm_fit.score(X_test,
+    y_test)))
+\end{verbatim}
+
 As métricas (Tabela \ref{tab:svm_01}), matriz de confusão (Figura \ref{fig:svm_cm}) e curvas ROC (Figura \ref{svm_roc}) para cada uma das classes foram as seguintes:
 
-\begin{table}[]
+\begin{verbatim}
+ #file: svm.ipynb
+ svm_clf = OneVsRestClassifier(svm.SVC(kernel='linear',
+                                      probability=True))
+
+ y_predp_ovr_svm = svm_clf.fit(X_train, y_train).predict_proba(X_test)
+ y_pred_ovr_svm = svm_clf.fit(X_train, y_train).predict(X_test)
+ y_pred_svm = np.argmax(y_pred_ovr_svm, axis=1)
+ #Matriz de confusão
+ svm_cm = confusion_matrix(y_true=y_true, 
+                          y_pred=y_pred_svm)
+ #Heatmap
+ plt.figure(figsize = (10,8))
+ ax = plt.axes()
+ x_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for x-axis
+ y_axis_labels = ['class_1', 'class_2', 'class_3', 'class_4'] 
+ # labels for y-axis
+ sns.heatmap(svm_cm,
+             vmin=0,
+             vmax=10,
+             annot=True,
+             fmt="d",
+             ax = ax,
+             xticklabels=x_axis_labels, 
+             yticklabels=y_axis_labels)
+ ax.set_title('Heatmap for Gradient Boosting Classification Model',pad=15)
+ print(classification_report(y_true, y_pred_svm, target_names=class_label))
+ print("Accuracy:",metrics.accuracy_score(y_true, y_pred_svm))
+\end{verbatim}
+
+
+\begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c|}
 \cline{2-5}
@@ -1350,7 +1568,7 @@ As métricas (Tabela \ref{tab:svm_01}), matriz de confusão (Figura \ref{fig:svm
 \end{table}
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/svm_cm.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -1358,7 +1576,7 @@ As métricas (Tabela \ref{tab:svm_01}), matriz de confusão (Figura \ref{fig:svm
  \label{fig:svm_cm}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -1393,7 +1611,7 @@ As métricas (Tabela \ref{tab:svm_01}), matriz de confusão (Figura \ref{fig:svm
 
 O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.7$ com as seguintes métricas (\ref{tab:metrics_svm}):
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1412,12 +1630,51 @@ O valor do coeficiente Kappa para o classificador Gradient Boosting foi de $0.7$
 \end{table}
 
 
-
+\newpage
 \section{Conclusão}
 
-Realizando ROC curva para todos os métodos (Figura \ref{roc}):
+A execução de diversos métodos de aprendizagem de máquina proporcionou uma avaliação do comportamento ao dataset escolhido. Inicialmente foi realizado uma curva ROC para os métodos (Figura \ref{roc}):
 
-\begin{figure}
+\begin{verbatim}
+ #file: comparison.ipynb
+ for i in range(class_label.shape[0]):
+    plt.figure(figsize = (10,6))
+    plt.plot(fpr_svm[i], 
+             tpr_svm[i],
+             color='red', 
+             label='ROC curve for SVM (area = %0.2f)' % roc_auc_svm[i])
+    plt.plot(fpr_xgb[i], 
+             tpr_xgb[i],
+             color='black', 
+             label='ROC curve for XGBoost (area = %0.2f)' % roc_auc_xgb[i])
+    plt.plot(fpr_RF100[i], 
+             tpr_RF100[i],
+             color='green', 
+             label='ROC curve for RF100 (area = %0.2f)' % roc_auc_RF100[i])
+    plt.plot(fpr_KNN1[i], 
+             tpr_KNN1[i],
+             color='blue', 
+             label='ROC curve for KNN (area = %0.2f)' % roc_auc_KNN1[i])
+    plt.plot(fpr_gb[i], 
+             tpr_gb[i],
+             color='cyan', 
+             label='ROC curve for Gradient Boosting (area = %0.2f)' % roc_auc_gb[i])
+    plt.plot(fpr_DT[i], 
+             tpr_DT[i],
+             color='magenta', 
+             label='ROC curve for DT (area = %0.2f)' % roc_auc_DT[i])
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver operating characteristic (ROC) for %s' % class_label[i])
+    plt.legend(loc="lower right")
+    plt.show()
+\end{verbatim}
+
+
+\begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.475\textwidth}
     \centering
@@ -1450,9 +1707,44 @@ Realizando ROC curva para todos os métodos (Figura \ref{roc}):
     \label{roc}
 \end{figure}
 
-E o radarplot (Figura \ref{fig:radar}):
+Após isso comparamos os resultados das acurácias através de um \textit{radarplot} (Figura \ref{fig:radar}) e um \textit{barplot} (Figura \ref{fig:barplot}):
 
-\begin{figure}[h!]
+\begin{verbatim}
+ #file: comparison.ipynb
+ #Radarplot
+ df_rplot = pd.DataFrame(dict(ac=[ac_xgb, ac_svm, ac_rf, ac_knn, ac_gb,
+ ac_dt],
+                             names_classif=['XGB','SVM', 'RF', 'KNN', 'GB',
+                             'DT']))
+ fig = px.line_polar(df_rplot, 
+                     r='ac', 
+                     theta='names_classif', 
+                     line_close=True, 
+                     title='Radarplot - Accuracy')
+ fig.update_traces(fill='toself')
+ fig.show()
+ #Barplot
+ fig = plt.figure(figsize=(10,4))
+ ax = fig.add_axes([0,0,1,1])
+ name_classifier=['XG Boost','SVM', 'Random Forest', 'KNN', 'Gradient
+ Boost.', 'Decion Tree']
+ ac=[ac_xgb, ac_svm, ac_rf, ac_knn, ac_gb, ac_dt]
+ bar = ax.bar(name_class,ac, color=['black', 'red', 'green', 'blue', 'cyan',
+ 'magenta'])
+ labels = name_classifier
+ opacity = 0.4
+ bar_width = 0.35
+ for rect, label in zip(bar, labels):
+     height = rect.get_height()
+     plt.text(rect.get_x() + rect.get_width() / 2.0, height, label,
+     ha='center', va='bottom')
+ ax.set_ylabel('Accuracy')
+ ax.set_title('Accuracy by Classifier')
+ plt.show()
+\end{verbatim}
+
+
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.5]{fig/radarplot.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
@@ -1460,15 +1752,15 @@ E o radarplot (Figura \ref{fig:radar}):
  \label{fig:radar}
 \end{figure}
 
-E barplot da acurácia dos métodos (Figura \ref{fig:barplot}):
-
-\begin{figure}[h!]
+\begin{figure}[H]
  \centering
  \includegraphics[scale=0.4]{fig/barplot.png}
  % scatter.png: 619x604 px, 96dpi, 16.38x15.98 cm, bb=0 0 464 453
  \caption{Barplot da acurácia dos métodos analisados.}
  \label{fig:barplot}
 \end{figure}
+
+A comparação dos métodos foi capaz de mostrar que para esse dataset e metodologia adotada o método Gradient Boosting obteve uma maior acurácia quando comparado com os demais métodos, por outro lado métodos baseados em árvores sobressaíram aos outros métodos como $k-NN$ e SVM.  
 
 % ----------------------------------------------------------
 % ELEMENTOS PÓS-TEXTUAIS
